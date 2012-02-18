@@ -1,6 +1,7 @@
-#Fri Feb 17 19:17:18 ART 2012
+#Sat Feb 18 10:57:57 ART 2012
 eclipse.preferences.version=1
 encoding//core/turing.py=UTF-8
+encoding//gui/dialog.py=utf-8
 encoding//gui/gui.py=utf-8
 encoding//gui/main.py=utf-8
 encoding//gui/qrc_resources_rc.py=utf-8

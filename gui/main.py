@@ -4,6 +4,7 @@
 import os,sys
 from PyQt4 import QtCore,QtGui
 from gui import Ui_MainWindow
+from gui import Ui_Dialog
 #from pixmapItem import PixmapItem
 #from sceneView import SceneView
 #from graph import Graph
