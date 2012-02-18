@@ -1,0 +1,250 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>iconos/3d bar chart.png</file>
+    <file>iconos/3d chart.png</file>
+    <file>iconos/3d graph.png</file>
+    <file>iconos/16 colors.png</file>
+    <file>iconos/256 colors.png</file>
+    <file>iconos/About.png</file>
+    <file>iconos/Add.png</file>
+    <file>iconos/Add folder.png</file>
+    <file>iconos/Angle.png</file>
+    <file>iconos/Apply.png</file>
+    <file>iconos/Arc.png</file>
+    <file>iconos/Arrow.png</file>
+    <file>iconos/Attach.png</file>
+    <file>iconos/Back.png</file>
+    <file>iconos/Bitmap editor.png</file>
+    <file>iconos/Brightness.png</file>
+    <file>iconos/Brush.png</file>
+    <file>iconos/Camera.png</file>
+    <file>iconos/Cancel.png</file>
+    <file>iconos/Chart xy.png</file>
+    <file>iconos/Check boxes.png</file>
+    <file>iconos/Circle.png</file>
+    <file>iconos/Clear.png</file>
+    <file>iconos/Clipboard.png</file>
+    <file>iconos/Close.png</file>
+    <file>iconos/Close file.png</file>
+    <file>iconos/Close folder.png</file>
+    <file>iconos/CMYK.png</file>
+    <file>iconos/Coffe.png</file>
+    <file>iconos/Coffee.png</file>
+    <file>iconos/Color.png</file>
+    <file>iconos/Color balance.png</file>
+    <file>iconos/Color filter.png</file>
+    <file>iconos/Color layers.png</file>
+    <file>iconos/Color palette.png</file>
+    <file>iconos/Color profile.png</file>
+    <file>iconos/Color test.png</file>
+    <file>iconos/Comment.png</file>
+    <file>iconos/Contrast.png</file>
+    <file>iconos/Copy.png</file>
+    <file>iconos/Create.png</file>
+    <file>iconos/Critical details.png</file>
+    <file>iconos/Curve.png</file>
+    <file>iconos/Curve points.png</file>
+    <file>iconos/Cut.png</file>
+    <file>iconos/Danger.png</file>
+    <file>iconos/Decrease time.png</file>
+    <file>iconos/Delete.png</file>
+    <file>iconos/Delete frame.png</file>
+    <file>iconos/Delete frames.png</file>
+    <file>iconos/Designer.png</file>
+    <file>iconos/Diagram.png</file>
+    <file>iconos/Down.png</file>
+    <file>iconos/Download.png</file>
+    <file>iconos/Download image.png</file>
+    <file>iconos/Dropper.png</file>
+    <file>iconos/E-mail.png</file>
+    <file>iconos/Edit.png</file>
+    <file>iconos/Edit page.png</file>
+    <file>iconos/Edit text.png</file>
+    <file>iconos/Ellipse.png</file>
+    <file>iconos/Equipment.png</file>
+    <file>iconos/Erase.png</file>
+    <file>iconos/Eraser.png</file>
+    <file>iconos/Error.png</file>
+    <file>iconos/Exit.png</file>
+    <file>iconos/Export.png</file>
+    <file>iconos/Favourites.png</file>
+    <file>iconos/Feather.png</file>
+    <file>iconos/File exetension.png</file>
+    <file>iconos/Fill.png</file>
+    <file>iconos/Find.png</file>
+    <file>iconos/Fine brush.png</file>
+    <file>iconos/Flip.png</file>
+    <file>iconos/Flip horizontally.png</file>
+    <file>iconos/Flip vertically.png</file>
+    <file>iconos/Flow block.png</file>
+    <file>iconos/Flower.png</file>
+    <file>iconos/Folder.png</file>
+    <file>iconos/Form.png</file>
+    <file>iconos/Forward.png</file>
+    <file>iconos/Frames.png</file>
+    <file>iconos/Funnel.png</file>
+    <file>iconos/Go down.png</file>
+    <file>iconos/Go up.png</file>
+    <file>iconos/Gpadient.png</file>
+    <file>iconos/Graphic designer.png</file>
+    <file>iconos/Graphic file.png</file>
+    <file>iconos/Graphic tools.png</file>
+    <file>iconos/Grid.png</file>
+    <file>iconos/Help.png</file>
+    <file>iconos/Help book.png</file>
+    <file>iconos/Hexagon.png</file>
+    <file>iconos/Hide.png</file>
+    <file>iconos/Hint.png</file>
+    <file>iconos/Hints.png</file>
+    <file>iconos/Home.png</file>
+    <file>iconos/Homepage.png</file>
+    <file>iconos/HSL.png</file>
+    <file>iconos/HSV.png</file>
+    <file>iconos/Ico.png</file>
+    <file>iconos/Icon wizard.png</file>
+    <file>iconos/Import.png</file>
+    <file>iconos/Increase time.png</file>
+    <file>iconos/Index.png</file>
+    <file>iconos/Info.png</file>
+    <file>iconos/Key.png</file>
+    <file>iconos/Knife.png</file>
+    <file>iconos/LAB color model.png</file>
+    <file>iconos/Layers.png</file>
+    <file>iconos/Left-right.png</file>
+    <file>iconos/Left.png</file>
+    <file>iconos/Line.png</file>
+    <file>iconos/List.png</file>
+    <file>iconos/Lock.png</file>
+    <file>iconos/Lock color.png</file>
+    <file>iconos/Lock transparency.png</file>
+    <file>iconos/Magic hat.png</file>
+    <file>iconos/Measure.png</file>
+    <file>iconos/Microsoft flag.png</file>
+    <file>iconos/Monitor.png</file>
+    <file>iconos/Monitors.png</file>
+    <file>iconos/Mouse.png</file>
+    <file>iconos/Mouse pointer.png</file>
+    <file>iconos/Move.png</file>
+    <file>iconos/Movie.png</file>
+    <file>iconos/New clip art.png</file>
+    <file>iconos/New file.png</file>
+    <file>iconos/New frame.png</file>
+    <file>iconos/New frame1.png</file>
+    <file>iconos/New image.png</file>
+    <file>iconos/New imagelist.png</file>
+    <file>iconos/New video.png</file>
+    <file>iconos/No.png</file>
+    <file>iconos/Objects.png</file>
+    <file>iconos/Ok.png</file>
+    <file>iconos/Open.png</file>
+    <file>iconos/Open colors.png</file>
+    <file>iconos/Open file.png</file>
+    <file>iconos/Open v2.png</file>
+    <file>iconos/Painter.png</file>
+    <file>iconos/Paint over pixels.png</file>
+    <file>iconos/Pantone.png</file>
+    <file>iconos/Paste.png</file>
+    <file>iconos/Pen.png</file>
+    <file>iconos/Pencil.png</file>
+    <file>iconos/Pick color.png</file>
+    <file>iconos/Picture.png</file>
+    <file>iconos/Pie chart.png</file>
+    <file>iconos/Pin.png</file>
+    <file>iconos/Pinion.png</file>
+    <file>iconos/Pixel editor.png</file>
+    <file>iconos/Pixels.png</file>
+    <file>iconos/Play.png</file>
+    <file>iconos/Preview.png</file>
+    <file>iconos/Print.png</file>
+    <file>iconos/Problem.png</file>
+    <file>iconos/Properties.png</file>
+    <file>iconos/Red book.png</file>
+    <file>iconos/Red eye removing.png</file>
+    <file>iconos/Redo.png</file>
+    <file>iconos/Refresh.png</file>
+    <file>iconos/Registration.png</file>
+    <file>iconos/Registry.png</file>
+    <file>iconos/Rename.png</file>
+    <file>iconos/Replace pixels.png</file>
+    <file>iconos/Resize image.png</file>
+    <file>iconos/Restangle.png</file>
+    <file>iconos/Revert.png</file>
+    <file>iconos/RGB.png</file>
+    <file>iconos/Right.png</file>
+    <file>iconos/Rotate CCW.png</file>
+    <file>iconos/Rotate CW.png</file>
+    <file>iconos/Rotate left.png</file>
+    <file>iconos/Rotate right.png</file>
+    <file>iconos/Rotation.png</file>
+    <file>iconos/Rounded rectangle.png</file>
+    <file>iconos/Save.png</file>
+    <file>iconos/Save as.png</file>
+    <file>iconos/Save color.png</file>
+    <file>iconos/Save data.png</file>
+    <file>iconos/Save image.png</file>
+    <file>iconos/Save picture.png</file>
+    <file>iconos/Scan film.png</file>
+    <file>iconos/Scan image.png</file>
+    <file>iconos/Scanner.png</file>
+    <file>iconos/Scenario.png</file>
+    <file>iconos/Script.png</file>
+    <file>iconos/Search.png</file>
+    <file>iconos/Search computer.png</file>
+    <file>iconos/Search folder.png</file>
+    <file>iconos/Search online.png</file>
+    <file>iconos/Search text.png</file>
+    <file>iconos/Select gpadient.png</file>
+    <file>iconos/Selection.png</file>
+    <file>iconos/Settings.png</file>
+    <file>iconos/Sharpness.png</file>
+    <file>iconos/Show.png</file>
+    <file>iconos/Sizes.png</file>
+    <file>iconos/Smooth.png</file>
+    <file>iconos/Smooth line.png</file>
+    <file>iconos/Spell checking.png</file>
+    <file>iconos/Spiral.png</file>
+    <file>iconos/Spray.png</file>
+    <file>iconos/Square.png</file>
+    <file>iconos/Stop.png</file>
+    <file>iconos/Stop playing.png</file>
+    <file>iconos/Synchronize.png</file>
+    <file>iconos/Tag.png</file>
+    <file>iconos/Target.png</file>
+    <file>iconos/Target1.png</file>
+    <file>iconos/Test line.png</file>
+    <file>iconos/Text color.png</file>
+    <file>iconos/Text replace.png</file>
+    <file>iconos/Text tool.png</file>
+    <file>iconos/Time.png</file>
+    <file>iconos/Tip of the day.png</file>
+    <file>iconos/To do list.png</file>
+    <file>iconos/Tools.png</file>
+    <file>iconos/Touch.png</file>
+    <file>iconos/Transparency.png</file>
+    <file>iconos/Transparent background.png</file>
+    <file>iconos/Transparent color.png</file>
+    <file>iconos/Triangle.png</file>
+    <file>iconos/True color.png</file>
+    <file>iconos/Undo.png</file>
+    <file>iconos/Units.png</file>
+    <file>iconos/Unlock.png</file>
+    <file>iconos/Up-down.png</file>
+    <file>iconos/Up.png</file>
+    <file>iconos/Upload image.png</file>
+    <file>iconos/Wait.png</file>
+    <file>iconos/Warning.png</file>
+    <file>iconos/Webcam.png</file>
+    <file>iconos/Web designer.png</file>
+    <file>iconos/Wide brush.png</file>
+    <file>iconos/Wizard.png</file>
+    <file>iconos/Work area.png</file>
+    <file>iconos/Writing pencil.png</file>
+    <file>iconos/Wrong.png</file>
+    <file>iconos/Zoom out.png</file>
+    <file>iconos/Zoom in.png</file>
+    <file>iconos/Zoom auto.png</file>
+    <file>iconos/Zoom.png</file>
+    <file>iconos/YUV color space.png</file>
+    <file>iconos/Yes.png</file>
+  </qresource>
+</RCC>
