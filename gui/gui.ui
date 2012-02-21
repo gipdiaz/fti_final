@@ -99,9 +99,6 @@ p, li { white-space: pre-wrap; }
           </property>
          </widget>
         </item>
-        <item row="1" column="3">
-         <widget class="QComboBox" name="EstadoIniComboBox"/>
-        </item>
         <item row="2" column="0">
          <widget class="QLabel" name="EstadosAcepLabel">
           <property name="text">
@@ -126,22 +123,50 @@ p, li { white-space: pre-wrap; }
           </property>
          </widget>
         </item>
+        <item row="2" column="3">
+         <widget class="QToolButton" name="aceptarTuringBoton">
+          <property name="toolTip">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Aceptar &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Maquina Turing&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="resourse.qrc">
+            <normaloff>:/newPrefix/iconos/Apply.png</normaloff>:/newPrefix/iconos/Apply.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QTextEdit" name="EstadoIniText"/>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="gridLayoutWidget_2">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>200</y>
+         <y>221</y>
          <width>621</width>
-         <height>172</height>
+         <height>151</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="2">
+        <item row="1" column="2">
          <widget class="QTextBrowser" name="CintatextBrowser"/>
         </item>
-        <item row="0" column="0">
+        <item row="1" column="0">
          <widget class="QTreeWidget" name="transcisionesWidget">
           <attribute name="headerDefaultSectionSize">
            <number>40</number>
@@ -191,7 +216,7 @@ p, li { white-space: pre-wrap; }
           </column>
          </widget>
         </item>
-        <item row="0" column="1">
+        <item row="1" column="1">
          <widget class="QToolButton" name="BorrarTransicionBoton">
           <property name="toolTip">
            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -216,15 +241,22 @@ p, li { white-space: pre-wrap; }
           </property>
          </widget>
         </item>
+        <item row="0" column="0" colspan="3">
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="gridLayoutWidget_3">
        <property name="geometry">
         <rect>
-         <x>-1</x>
-         <y>99</y>
+         <x>-4</x>
+         <y>107</y>
          <width>621</width>
-         <height>101</height>
+         <height>111</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
@@ -286,13 +318,6 @@ p, li { white-space: pre-wrap; }
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="1">
          <widget class="QLabel" name="QiLabel">
           <property name="text">
@@ -333,7 +358,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;S&lt;span style=&quot; vertical-align:sub;&quot;&gt;j&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;S&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; vertical-align:sub;&quot;&gt;j&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -347,6 +372,39 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Mov&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;(Q&lt;/span&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; vertical-align:sub;&quot;&gt;i &lt;/span&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;x S&lt;/span&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; vertical-align:sub;&quot;&gt;i&lt;/span&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;) -&amp;gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;(Q&lt;/span&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; vertical-align:sub;&quot;&gt;j &lt;/span&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;x S&lt;/span&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; vertical-align:sub;&quot;&gt;j &lt;/span&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;x Mov)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="7">
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="CadenaLabel">
+          <property name="text">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Cadena&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1" colspan="3">
+         <widget class="QTextEdit" name="CadenaText"/>
         </item>
        </layout>
       </widget>
@@ -384,7 +442,7 @@ p, li { white-space: pre-wrap; }
    <addaction name="actionCerrar"/>
    <addaction name="separator"/>
    <addaction name="actionEjecutar"/>
-   <addaction name="actionPausar"/>
+   <addaction name="actionPaso"/>
    <addaction name="actionDetener"/>
    <addaction name="separator"/>
    <addaction name="actionSalir"/>
@@ -400,6 +458,9 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Abrir Maquina Turing</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
   </action>
   <action name="actionNueva">
    <property name="icon">
@@ -411,6 +472,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>Nueva Maquina Turing</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="actionGuardar">
@@ -424,6 +488,9 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Guardar Maquina Turing</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+G</string>
+   </property>
   </action>
   <action name="actionSalir">
    <property name="icon">
@@ -435,6 +502,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>Salir del Simulador</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
   <action name="actionEjecutar">
@@ -448,18 +518,24 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Ejecutar Maquina Turing</string>
    </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
   </action>
-  <action name="actionPausar">
+  <action name="actionPaso">
    <property name="icon">
-    <iconset>
-     <disabledoff>:/newPrefix/iconos/Stop playing.png</disabledoff>
-    </iconset>
+    <iconset resource="resourse.qrc">
+     <normaloff>:/newPrefix/iconos/Forward.png</normaloff>
+     <disabledoff>:/newPrefix/iconos/Stop playing.png</disabledoff>:/newPrefix/iconos/Forward.png</iconset>
    </property>
    <property name="text">
-    <string>Pausar</string>
+    <string>Paso a Paso</string>
    </property>
    <property name="toolTip">
-    <string>Pausar Maquina Turing</string>
+    <string>Ejecutar Paso a Paso la Maquina Turing</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
    </property>
   </action>
   <action name="actionDetener">
@@ -473,6 +549,9 @@ p, li { white-space: pre-wrap; }
    <property name="toolTip">
     <string>Detener Maquina Turing</string>
    </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
   </action>
   <action name="actionCerrar">
    <property name="icon">
@@ -484,6 +563,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>Cerrar Maquina Turing</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
    </property>
   </action>
   <action name="actionCargar">
@@ -499,6 +581,24 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>EstadosText</tabstop>
+  <tabstop>AlfabetoText</tabstop>
+  <tabstop>EstadosAcepText</tabstop>
+  <tabstop>SimbBlancoText</tabstop>
+  <tabstop>EstadoIniText</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>comboBox_2</tabstop>
+  <tabstop>comboBox_3</tabstop>
+  <tabstop>comboBox_4</tabstop>
+  <tabstop>comboBox_5</tabstop>
+  <tabstop>CadenaText</tabstop>
+  <tabstop>transcisionesWidget</tabstop>
+  <tabstop>BorrarTransicionBoton</tabstop>
+  <tabstop>aceptarTuringBoton</tabstop>
+  <tabstop>AgregarTransicionBoton</tabstop>
+  <tabstop>CintatextBrowser</tabstop>
+ </tabstops>
  <resources>
   <include location="resourse.qrc"/>
  </resources>
