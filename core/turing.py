@@ -174,11 +174,15 @@ class MaquinaTuring(Persistencia):
 	#----------------------------------------------------#
 	
 	def __init__(self, conj_estados = None,alfabeto_entrada = None,estado_inicial = None,char_blanco = None,conj_estados_finales_aceptadores = None):
-		self.blanco = char_blanco
-		self.conj_estados_finales_aceptadores = conj_estados_finales_aceptadores
-		self.program = {}
-		self.estado_inicial = estado_inicial
-		self.estado = self.estado_inicial
+		if conj_estados != None:
+			self.conj_estados = conj_estados
+			self.alfabeto_entrada = alfabeto_entrada
+			self.blanco = char_blanco
+			self.conj_estados_finales_aceptadores = conj_estados_finales_aceptadores
+			self.program = {}
+			self.estado_inicial = estado_inicial
+			self.estado = self.estado_inicial
+			self.list_item = []
 	
 	#----------------------------------------------------#
 	
@@ -187,8 +191,14 @@ class MaquinaTuring(Persistencia):
 		self.cinta = Cinta(cadena,0,self.blanco)
 		
 	#----------------------------------------------------#	
+	
+	def getItems(self):
+		return self.list_item
+	
+	#----------------------------------------------------#
 		
-	def agregarTransicion(self, estado, char_in, estado_destino, char_out, movimiento):
+	def agregarTransicion(self, estado, char_in, estado_destino, char_out, movimiento, item):
+		self.list_item.append(item)
 		if not self.program.has_key(estado):
 			self.program[estado] = {}
 

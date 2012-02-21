@@ -44,11 +44,13 @@ class FileDialog(QtGui.QFileDialog):
 
     def abrir(self):
         self.nombreArchivo = str(self.getOpenFileName(self,"", PATH_ACTUAL + Vars.file_name,"Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog))
+        return self.nombreArchivo
       
     #----------------------------------------------------#  
         
     def guardar(self):
         Vars.file_name = str(self.getSaveFileName(self,"", PATH_ACTUAL, "Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog))
+        return Vars.file_name
 
 ######################################################
 
@@ -104,7 +106,19 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.AgregarTransicionBoton.setEnabled(False)
         self.ui.BorrarTransicionBoton.setEnabled(False)
         
+        self.ui.actionNueva.setDisabled(False)
+        self.ui.actionAbrir.setDisabled(False)
+        self.ui.actionCerrar.setDisabled(True)
+        self.ui.actionGuardar.setDisabled(True)
+        self.ui.actionEjecutar.setDisabled(True)
+        self.ui.actionPaso.setDisabled(True)
+        self.ui.actionDetener.setDisabled(True)
+        self.ui.actionCargar.setDisabled(True)
+        
     #----------------------------------------------------#
+    
+    def cargar(self,datos):
+        pass
     
     def mostrar(self,msj):
         self.ui.CintatextBrowser.setText(msj)
@@ -215,11 +229,10 @@ class SimTur():
         app = QtGui.QApplication(sys.argv)
         self.main_window=MainWindow()
         self.main_window.show()
-        #self.main_window.nueva()
-        self.nueva_2()
+        self.main_window.nueva()
+        #self.nueva_2()
         self.file_dialog=FileDialog()
         self.setSignals() 
-        
         self.conj_estados = []
         self.alfabeto_entrada = []
         #self.alfabeto_cinta = self.alfabeto_entrada + ['Der','Izq']
@@ -236,7 +249,7 @@ class SimTur():
         self.mt = MaquinaTuring(conj_estados, alfabeto_entrada, estado_inicial, char_blanco, conj_estados_finales_aceptadores) 
         
     #----------------------------------------------------#
-        
+    """    
     def nueva_2(self):
         self.conj_estados = ['a','b']
         self.alfabeto_entrada = ['1','2']
@@ -247,12 +260,14 @@ class SimTur():
         self.main_window.activarTransicion(self)
         self.main_window.desactivarCargaDatos()
         self.crearTuring()
-        
+    """
         #"<p><span style=color:red;>Blue color font</span>c<span style=color:green;>Green color text</span></p>"
         
         
         #self.main_window.ui.CintatextBrowser.append("<p><span style=color:red;>Blue color font</span><span style=color:green;>Green color text</span></p>")
-        
+
+    #----------------------------------------------------#
+
     def ejecutar(self):
         self.cadena = self.main_window.ui.CadenaText.toPlainText()
         self.mt.reinit(str(self.cadena))
@@ -266,16 +281,113 @@ class SimTur():
                 run = False
         self.main_window.imprimir(aux) 
             
+    #----------------------------------------------------#
             
-            
+    def guardar(self):
+        file_name = self.file_dialog.guardar()
+        self.mt.guardar(self, file_name)
         
+    
+
+    #----------------------------------------------------#
+
+    def abrir(self):
+        self.limpiar()
+        file_name = self.file_dialog.abrir()
+        self.mt = MaquinaTuring()
+        self.mt = self.mt.cargar(file_name)
+        
+        self.conj_estados = self.mt.conj_estados
+        self.alfabeto_entrada = self.mt.alfabeto_entrada
+        self.conj_estados_finales_aceptadores = self.mt.conj_estados_finales_aceptadores
+        self.char_blanco = self.mt.blanco
+        self.estado_inicial = self.mt.estado_inicial
+        i=1
+        aux = ""
+        list_estados = []
+        for i in self.conj_estados:
+            if i != "[" and i != "]" and i != "," and i != "[" and i != "'" and i != " ":
+                aux = aux + i + " "
+                list_estados.append(i)
+        self.conj_estados = aux
+        i=1
+        aux = ""
+        list_estados_acep = []
+        for i in self.conj_estados_finales_aceptadores:
+            if i != "[" and i != "]" and i != "," and i != "[" and i != "'" and i != " ":
+                aux = aux + i
+                list_estados_acep.append(i)
+        self.conj_estados_finales_aceptadores = aux
+        i=1
+        aux = ""
+        list_alfabeto = []
+        for i in self.alfabeto_entrada:
+            if i != "[" and i != "]" and i != "," and i != "[" and i != "'" and i != " ":
+                aux = aux + i
+                list_alfabeto.append(i)
+        self.alfabeto_entrada = aux
+         
+        self.main_window.ui.EstadoIniText.setText(self.estado_inicial)
+        self.main_window.ui.AlfabetoText.setText(self.alfabeto_entrada)
+        self.main_window.ui.EstadosAcepText.setText(self.conj_estados_finales_aceptadores)
+        self.main_window.ui.EstadosText.setText(self.conj_estados)
+        self.main_window.ui.SimbBlancoText.setText(self.char_blanco)
+        
+        list_items = self.mt.getItems()
+        i=0
+        for i in list_items:
+            item = QtGui.QTreeWidgetItem(i)
+            self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
+        
+        self.ui.actionNueva.setDisabled(False)
+        self.ui.actionAbrir.setDisabled(False)
+        self.ui.actionCerrar.setDisabled(False)
+        self.ui.actionGuardar.setDisabled(False)
+        self.ui.actionEjecutar.setDisabled(False)
+        self.ui.actionPaso.setDisabled(False)
+        self.ui.actionDetener.setDisabled(False)
+        self.ui.actionCargar.setDisabled(False)
+                          
+    #----------------------------------------------------#
+            
+    def limpiar(self):
+        self.main_window.ui.EstadosText.setEnabled(True)
+        self.main_window.ui.EstadosText.setText("")
+        self.main_window.ui.AlfabetoText.setEnabled(True)
+        self.main_window.ui.AlfabetoText.setText("")
+        self.main_window.ui.EstadosAcepText.setEnabled(True)
+        self.main_window.ui.EstadosAcepText.setText("")
+        self.main_window.ui.SimbBlancoText.setEnabled(True)
+        self.main_window.ui.SimbBlancoText.setText("")
+        self.main_window.ui.EstadoIniText.setEnabled(True)
+        self.main_window.ui.EstadoIniText.setText("")
+        self.main_window.ui.comboBox.setEnabled(True)
+        self.main_window.ui.comboBox_2.setEnabled(True)
+        self.main_window.ui.comboBox_3.setEnabled(True)
+        self.main_window.ui.comboBox_4.setEnabled(True)
+        self.main_window.ui.comboBox_5.setEnabled(True)
+        self.main_window.ui.comboBox.clear()
+        self.main_window.ui.comboBox_2.clear()
+        self.main_window.ui.comboBox_3.clear()
+        self.main_window.ui.comboBox_4.clear()
+        self.main_window.ui.comboBox_5.clear()
+        self.main_window.ui.transcisionesWidget.setEnabled(True)
+        self.main_window.ui.transcisionesWidget.clear()
+        self.main_window.ui.CintatextBrowser.setEnabled(True)
+        self.main_window.ui.CintatextBrowser.clear()
+        self.main_window.ui.AgregarTransicionBoton.setEnabled(True)
+        self.main_window.ui.BorrarTransicionBoton.setEnabled(True)
+        
+        
+    
     def setSignals(self):
-        QtCore.QObject.connect(self.main_window.ui.actionAbrir, QtCore.SIGNAL(("activated()")), self.file_dialog.abrir)
-        QtCore.QObject.connect(self.main_window.ui.actionGuardar, QtCore.SIGNAL(("activated()")), self.file_dialog.guardar)
+        QtCore.QObject.connect(self.main_window.ui.actionAbrir, QtCore.SIGNAL(("activated()")), self.abrir)
+        QtCore.QObject.connect(self.main_window.ui.actionGuardar, QtCore.SIGNAL(("activated()")), self.guardar)
         QtCore.QObject.connect(self.main_window.ui.actionNueva, QtCore.SIGNAL(("activated()")), self.main_window.nueva)
         QtCore.QObject.connect(self.main_window.ui.aceptarTuringBoton, QtCore.SIGNAL(("clicked()")), self.validarTuring)
         QtCore.QObject.connect(self.main_window.ui.AgregarTransicionBoton, QtCore.SIGNAL(("clicked()")), self.agregarTransicion)
         QtCore.QObject.connect(self.main_window.ui.actionEjecutar, QtCore.SIGNAL(("activated()")), self.ejecutar)
+        QtCore.QObject.connect(self.main_window.ui.actionCerrar, QtCore.SIGNAL(("activated()")), self.main_window.nueva)
         #QtCore.QObject.connect(file_dialog, QtCore.SIGNAL (("fileSelected(QString)")), file_dialog.abrirArchivo)
             
     #----------------------------------------------------#
@@ -363,6 +475,16 @@ class SimTur():
             self.main_window.desactivarCargaDatos()
             self.crearTuring()
             
+            self.main_window.ui.actionNueva.setDisabled(False)
+            self.main_window.ui.actionAbrir.setDisabled(False)
+            self.main_window.ui.actionCerrar.setDisabled(False)
+            self.main_window.ui.actionGuardar.setDisabled(False)
+            self.main_window.ui.actionEjecutar.setDisabled(False)
+            self.main_window.ui.actionPaso.setDisabled(False)
+            self.main_window.ui.actionDetener.setDisabled(False)
+            self.main_window.ui.actionCargar.setDisabled(False)
+            self.main_window.ui.aceptarTuringBoton.setDisabled(True)
+            
     #----------------------------------------------------#
     
     def crearTuring(self):
@@ -373,11 +495,11 @@ class SimTur():
     
     def agregarTransicion(self):
         transicion = [ str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText())]
-        print transicion
+        #print transicion
         item = QtGui.QTreeWidgetItem(transicion)
         self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
         
-        self.mt.agregarTransicion(str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText()))
+        self.mt.agregarTransicion(str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText()), transicion)
         
         """
         self.alfabeto_entrada = self.main_window.ui.AlfabetoText.toPlainText()
