@@ -8,27 +8,14 @@ from gui.dialog import Ui_Dialog
 from core.turing import MaquinaTuring
 
 #HOME_PATH = os.path.expanduser('~') + os.sep
-PATH_ACTUAL = os.path.abspath("") + os.sep
+PATH_ACTUAL = os.path.abspath("") + os.sep + "maquinas" + os.sep
 ######################################################
 
 class Vars():
-    file_name = "Default.mtc"
+    file_name = "default"
     
 ######################################################
-
-class TuringErrorException(Exception):
-    def __str__(self):
-        return "Se produjo un Error"
-
-######################################################
-
-class TuringAceptoException(Exception):
-    def __str__(self):
-        return "Finalizo la Maquina correctamente"    
-
-######################################################
-
-
+    
 class FileDialog(QtGui.QFileDialog):
     
     #----------------------------------------------------#
@@ -44,13 +31,20 @@ class FileDialog(QtGui.QFileDialog):
 
     def abrir(self):
         self.nombreArchivo = str(self.getOpenFileName(self,"", PATH_ACTUAL + Vars.file_name,"Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog))
-        return self.nombreArchivo
+        print self.nombreArchivo
+        if self.nombreArchivo == "":
+            return "None"
+        else:
+            return self.nombreArchivo
       
     #----------------------------------------------------#  
         
     def guardar(self):
-        Vars.file_name = str(self.getSaveFileName(self,"", PATH_ACTUAL, "Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog))
-        return Vars.file_name
+        Vars.file_name = str(self.getSaveFileName(self,"", PATH_ACTUAL, "Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog)) + ".mtc"
+        if self.nombreArchivo == "":
+            return "None"
+        else:
+            return self.nombreArchivo
 
 ######################################################
 
@@ -64,8 +58,6 @@ class MainWindow(QtGui.QMainWindow):
         self.ui=Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.transcisionesWidget
-        
-        #QtCore.QObject.connect(self.ui.actionAbrir, QtCore.SIGNAL(("activated()")), self.abrir)
         
     #----------------------------------------------------#    
         
@@ -106,6 +98,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.AgregarTransicionBoton.setEnabled(False)
         self.ui.BorrarTransicionBoton.setEnabled(False)
         
+        # set el estado de los botones de la interfaz
         self.ui.actionNueva.setDisabled(False)
         self.ui.actionAbrir.setDisabled(False)
         self.ui.actionCerrar.setDisabled(True)
@@ -117,31 +110,14 @@ class MainWindow(QtGui.QMainWindow):
         
     #----------------------------------------------------#
     
-    def cargar(self,datos):
-        pass
-    
     def mostrar(self,msj):
         self.ui.CintatextBrowser.setText(msj)
     
+    #----------------------------------------------------#
+    
     def imprimir(self,msj):
         self.ui.CintatextBrowser.append(msj)
-        
-    def imprimir_html(self,msj):
-        self.ui.CintatextBrowser.setHtml(msj)
-        self.ui.CintatextBrowser.append(msj)
-        
-        #self.ui.CintatextBrowser.setText("VAMOS FUNCIONA")
-        #self.ui.CintatextBrowser.setText("VAMOS FUNCIONA 2")
-        #self.ui.CintatextBrowser.setLineWidth(25)
-        #self.ui.CintatextBrowser.scroll(5, 5)
-        #self.ui.CintatextBrowser.setAcceptRichText(True)
-        #QtGui.QColor(1)
-        #self.ui.CintatextBrowser.setTextBackgroundColor(QtGui.QColor.fromRgb(12,233,47))
-        #self.ui.CintatextBrowser.setText()
-        #("VAMOS CARAJO FUNCIONA!!")
-        #self.ui.CintatextBrowser.setText("VAMOS CARAJO FUNCIONA!!")
-        #self.ui.CintatextBrowser.setText("VAMOS CARAJO FUNCIONA!!")
-    
+     
     #----------------------------------------------------#
         
     def activarTransicion(self,datos):
@@ -169,55 +145,6 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.EstadosAcepText.setEnabled(False)
         self.ui.SimbBlancoText.setEnabled(False)
         self.ui.EstadoIniText.setEnabled(False)
-        
-    """
-    def showQuit(self):
-        "" ""        
-        reply = QtGui.QMessageBox.question(self, 'Message',
-        "<font color=white> Are you sure to quit? </font>", QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-        if reply == QtGui.QMessageBox.Yes:
-            QtCore.QCoreApplication.instance().quit()           
-
-    #---##---## ---##---##---##---##---##---##---##---##---##---##---##---##
-    
-    def showAbout(self):
-        "" ""
-        box = QtGui.QMessageBox.about(self,"my about","<font color=white> This is my about </font>")
-        
-    #---##---## ---##---##---##---##---##---##---##---##---##---##---##---##
-
-    def showFileDialog(self):
-        dialog = QtGui.QFileDialog() 
-        self.fileNames = dialog.getOpenFileNames(self,"Open Image", os.getcwd() , "Image Files (*.png *.jpg *.bmp)")
-        
-        posx = posy = 10
-        for i in self.fileNames:
-            pix = QtGui.QPixmap(i)
-            sca = PixmapItem(pix.scaledToWidth(80), i)
-            sca.setFlags(QtGui.QGraphicsItem.ItemIsSelectable| QtGui.QGraphicsItem.ItemIsMovable)
-            self.ui.scene.addItem(sca)
-            if (self.ui.graphicsView.width() < posx + 100 ):
-                 posy = 100; posx = 10
-         
-            sca.setPos(posx,posy)
-            posx+=100     
-            
-    #---##---## ---##---##---##---##---##---##---##---##---##---##---##---##      
-                          
-    def showNetworkDialog(self):
-        "" ""
-        
-        items = self.ui.scene.items()
-        self.fileNames = [str(f) for f in self.fileNames] #para pasar de QString a una lista
-        for i in items:
-            if (not i.isVisible()):
-                self.fileNames.remove(i.path)
-        print self.fileNames        
-        
-        self.ui.scene.clear()
-        myNetwork = Graph(17, 23,"../../data/matrizPesos.xls") #TODO pedirlo por ui
-        myNetwork.show(self.ui.scene)
-        """
    
 ######################################################
 
@@ -230,45 +157,25 @@ class SimTur():
         self.main_window=MainWindow()
         self.main_window.show()
         self.main_window.nueva()
-        #self.nueva_2()
         self.file_dialog=FileDialog()
         self.setSignals() 
         self.conj_estados = []
         self.alfabeto_entrada = []
-        #self.alfabeto_cinta = self.alfabeto_entrada + ['Der','Izq']
         self.estado_inicial = 0
         self.char_blanco = ""
         self.cadena = ""
         self.conj_estados_finales_aceptadores = []
-
         sys.exit(app.exec_())
     
     #----------------------------------------------------#
     
     def __reinit__(self, conj_estados, alfabeto_entrada, estado_inicial, char_blanco, conj_estados_finales_aceptadores):
         self.mt = MaquinaTuring(conj_estados, alfabeto_entrada, estado_inicial, char_blanco, conj_estados_finales_aceptadores) 
-        
-    #----------------------------------------------------#
-    """    
-    def nueva_2(self):
-        self.conj_estados = ['a','b']
-        self.alfabeto_entrada = ['1','2']
-        self.conj_estados_finales_aceptadores = ['b']
-        self.char_blanco = '@'
-        self.estado_inicial = 'a'
-        
-        self.main_window.activarTransicion(self)
-        self.main_window.desactivarCargaDatos()
-        self.crearTuring()
-    """
-        #"<p><span style=color:red;>Blue color font</span>c<span style=color:green;>Green color text</span></p>"
-        
-        
-        #self.main_window.ui.CintatextBrowser.append("<p><span style=color:red;>Blue color font</span><span style=color:green;>Green color text</span></p>")
-
+    
     #----------------------------------------------------#
 
     def ejecutar(self):
+        self.main_window.mostrar("")
         self.cadena = self.main_window.ui.CadenaText.toPlainText()
         self.mt.reinit(str(self.cadena))
         
@@ -285,68 +192,72 @@ class SimTur():
             
     def guardar(self):
         file_name = self.file_dialog.guardar()
-        self.mt.guardar(self, file_name)
+        if file_name != "None":
+            self.mt.guardar(self, file_name)
+        else:
+            print "cancelo el save"
         
-    
-
     #----------------------------------------------------#
 
     def abrir(self):
         self.limpiar()
         file_name = self.file_dialog.abrir()
-        self.mt = MaquinaTuring()
-        self.mt = self.mt.cargar(file_name)
-        
-        self.conj_estados = self.mt.conj_estados
-        self.alfabeto_entrada = self.mt.alfabeto_entrada
-        self.conj_estados_finales_aceptadores = self.mt.conj_estados_finales_aceptadores
-        self.char_blanco = self.mt.blanco
-        self.estado_inicial = self.mt.estado_inicial
-        i=1
-        aux = ""
-        list_estados = []
-        for i in self.conj_estados:
-            if i != "[" and i != "]" and i != "," and i != "[" and i != "'" and i != " ":
-                aux = aux + i + " "
-                list_estados.append(i)
-        self.conj_estados = aux
-        i=1
-        aux = ""
-        list_estados_acep = []
-        for i in self.conj_estados_finales_aceptadores:
-            if i != "[" and i != "]" and i != "," and i != "[" and i != "'" and i != " ":
-                aux = aux + i
-                list_estados_acep.append(i)
-        self.conj_estados_finales_aceptadores = aux
-        i=1
-        aux = ""
-        list_alfabeto = []
-        for i in self.alfabeto_entrada:
-            if i != "[" and i != "]" and i != "," and i != "[" and i != "'" and i != " ":
-                aux = aux + i
-                list_alfabeto.append(i)
-        self.alfabeto_entrada = aux
-         
-        self.main_window.ui.EstadoIniText.setText(self.estado_inicial)
-        self.main_window.ui.AlfabetoText.setText(self.alfabeto_entrada)
-        self.main_window.ui.EstadosAcepText.setText(self.conj_estados_finales_aceptadores)
-        self.main_window.ui.EstadosText.setText(self.conj_estados)
-        self.main_window.ui.SimbBlancoText.setText(self.char_blanco)
-        
-        list_items = self.mt.getItems()
-        i=0
-        for i in list_items:
-            item = QtGui.QTreeWidgetItem(i)
-            self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
-        
-        self.ui.actionNueva.setDisabled(False)
-        self.ui.actionAbrir.setDisabled(False)
-        self.ui.actionCerrar.setDisabled(False)
-        self.ui.actionGuardar.setDisabled(False)
-        self.ui.actionEjecutar.setDisabled(False)
-        self.ui.actionPaso.setDisabled(False)
-        self.ui.actionDetener.setDisabled(False)
-        self.ui.actionCargar.setDisabled(False)
+        if file_name != "None":
+            self.mt = MaquinaTuring()
+            self.mt = self.mt.cargar(file_name)
+            
+            self.conj_estados = self.mt.conj_estados
+            self.alfabeto_entrada = self.mt.alfabeto_entrada
+            self.conj_estados_finales_aceptadores = self.mt.conj_estados_finales_aceptadores
+            self.char_blanco = self.mt.blanco
+            self.estado_inicial = self.mt.estado_inicial
+            i=1
+            aux = ""
+            list_estados = []
+            for i in self.conj_estados:
+                if i != "[" and i != "]" and i != "," and i != "[" and i != "'" and i != " ":
+                    aux = aux + i + " "
+                    list_estados.append(i)
+            self.conj_estados = aux
+            i=1
+            aux = ""
+            list_estados_acep = []
+            for i in self.conj_estados_finales_aceptadores:
+                if i != "[" and i != "]" and i != "," and i != "[" and i != "'" and i != " ":
+                    aux = aux + i
+                    list_estados_acep.append(i)
+            self.conj_estados_finales_aceptadores = aux
+            i=1
+            aux = ""
+            list_alfabeto = []
+            for i in self.alfabeto_entrada:
+                if i != "[" and i != "]" and i != "," and i != "[" and i != "'" and i != " ":
+                    aux = aux + i
+                    list_alfabeto.append(i)
+            self.alfabeto_entrada = aux
+             
+            self.main_window.ui.EstadoIniText.setText(self.estado_inicial)
+            self.main_window.ui.AlfabetoText.setText(self.alfabeto_entrada)
+            self.main_window.ui.EstadosAcepText.setText(self.conj_estados_finales_aceptadores)
+            self.main_window.ui.EstadosText.setText(self.conj_estados)
+            self.main_window.ui.SimbBlancoText.setText(self.char_blanco)
+            
+            list_items = self.mt.getItems()
+            i=0
+            for i in list_items:
+                item = QtGui.QTreeWidgetItem(i)
+                self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
+            
+            self.main_window.ui.actionNueva.setDisabled(False)
+            self.main_window.ui.actionAbrir.setDisabled(False)
+            self.main_window.ui.actionCerrar.setDisabled(False)
+            self.main_window.ui.actionGuardar.setDisabled(False)
+            self.main_window.ui.actionEjecutar.setDisabled(False)
+            self.main_window.ui.actionPaso.setDisabled(False)
+            self.main_window.ui.actionDetener.setDisabled(False)
+            self.main_window.ui.actionCargar.setDisabled(False)
+        else:
+            print "cancelo el open"
                           
     #----------------------------------------------------#
             
@@ -378,7 +289,7 @@ class SimTur():
         self.main_window.ui.AgregarTransicionBoton.setEnabled(True)
         self.main_window.ui.BorrarTransicionBoton.setEnabled(True)
         
-        
+    #----------------------------------------------------#     
     
     def setSignals(self):
         QtCore.QObject.connect(self.main_window.ui.actionAbrir, QtCore.SIGNAL(("activated()")), self.abrir)
@@ -388,7 +299,6 @@ class SimTur():
         QtCore.QObject.connect(self.main_window.ui.AgregarTransicionBoton, QtCore.SIGNAL(("clicked()")), self.agregarTransicion)
         QtCore.QObject.connect(self.main_window.ui.actionEjecutar, QtCore.SIGNAL(("activated()")), self.ejecutar)
         QtCore.QObject.connect(self.main_window.ui.actionCerrar, QtCore.SIGNAL(("activated()")), self.main_window.nueva)
-        #QtCore.QObject.connect(file_dialog, QtCore.SIGNAL (("fileSelected(QString)")), file_dialog.abrirArchivo)
             
     #----------------------------------------------------#
             
@@ -489,7 +399,6 @@ class SimTur():
     
     def crearTuring(self):
         self.__reinit__(str(self.conj_estados), str(self.alfabeto_entrada), str(self.estado_inicial), str(self.char_blanco), str(self.conj_estados_finales_aceptadores))
-        #self.mt = MaquinaTuring(self.conj_estados, self.alfabeto_entrada, self.estado_inicial, self.char_blanco, self.conj_estados_finales_aceptadores)
         
     #----------------------------------------------------#
     
@@ -500,25 +409,7 @@ class SimTur():
         self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
         
         self.mt.agregarTransicion(str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText()), transicion)
-        
-        """
-        self.alfabeto_entrada = self.main_window.ui.AlfabetoText.toPlainText()
-        self.alfabeto_cinta = self.alfabeto_entrada + ['Der','Izq']
-        self.estado_inicial = self.main_window.ui.EstadoIniText.toPlainText()
-        self.char_blanco = self.main_window.ui.SimbBlancoText.toPlainText()
-        self.conj_estados_finales_aceptadores = self.main_window.ui.EstadoIniText.toPlainText()
-        
-        # Creacion de la Maquina de Turing completa
-        mt = MaquinaTuring(conj_estados,alfabeto_entrada,alfabeto_cinta,estado_inicial,char_blanco,cadena,conj_estados_finales_aceptadores)
-        # El metodo agregarTransicion(estado_origen,caracter_leido,estado_destino,caracter_escrito,movimiento)
-        mt.agregarTransicion(0,'A',0,'A','D')
-        mt.agregarTransicion(0,'B',0,'A','D')
-        mt.agregarTransicion(0,'C',0,'B','I')
-        mt.agregarTransicion(0,'D',1,'D','D')
-        mt.agregarTransicion(1,'@',2,'@','I')
-        mt.ejecutar()
-        """
-        
+ 
 ######################################################
  
 if __name__ == "__main__":
