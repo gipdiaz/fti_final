@@ -2,13 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import os,sys
-import time
 from PyQt4 import QtCore,QtGui
 from gui.window import Ui_MainWindow
 from gui.dialog import Ui_Dialog
 from core.turing import MaquinaTuring
-
-
 
 ######################################################
 
@@ -359,10 +356,10 @@ class SimTur():
         QtCore.QObject.connect(self.main_window.ui.actionAbrir, QtCore.SIGNAL(("activated()")), self.abrir)
         QtCore.QObject.connect(self.main_window.ui.actionGuardar, QtCore.SIGNAL(("activated()")), self.guardar)
         QtCore.QObject.connect(self.main_window.ui.actionNueva, QtCore.SIGNAL(("activated()")), self.main_window.nueva)
+        QtCore.QObject.connect(self.main_window.ui.actionCerrar, QtCore.SIGNAL(("activated()")), self.main_window.nueva)
         QtCore.QObject.connect(self.main_window.ui.aceptarTuringBoton, QtCore.SIGNAL(("clicked()")), self.validarTuring)
         QtCore.QObject.connect(self.main_window.ui.AgregarTransicionBoton, QtCore.SIGNAL(("clicked()")), self.agregarTransicion)
         QtCore.QObject.connect(self.main_window.ui.actionEjecutar, QtCore.SIGNAL(("activated()")), self.ejecutar)
-        #QtCore.QObject.connect(self.main_window.ui.actionCerrar, QtCore.SIGNAL(("activated()")), self.main_window.nueva)
         QtCore.QObject.connect(self.main_window.ui.actionPaso, QtCore.SIGNAL(("activated()")), self.pasoapaso)
         QtCore.QObject.connect(self.main_window.ui.actionDetener, QtCore.SIGNAL(("activated()")), self.detener)
             
