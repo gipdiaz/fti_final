@@ -46,24 +46,11 @@ class TuringCintaException(Exception):
 
 ######################################################
 
-class TuringErrorException(Exception):
-	def __str__(self):
-		return "Se produjo un Error"
-
-######################################################
-
-class TuringAceptoException(Exception):
-	def __str__(self):
-		return "Finalizo la Maquina correctamente"
-
-######################################################
-
 class Cinta:
 	
 	#----------------------------------------------------#
 	
 	def __init__(self, cadenaInicial=[], posInicial=0, blanco="_"):
-		""" La cinta usa una lista simple """
 		self.status = 0
 		self.cinta = []
 		self.pos = posInicial
@@ -83,13 +70,13 @@ class Cinta:
 	#----------------------------------------------------#	
 
 	def mover(self, char_chequeo, char_nuevo, direccion):
-		""" Solo D y I son las direcciones soportadas """
-		# check to see if the character under the head is what we need
+		# Solo D y I son las direcciones soportadas
+		# Chequeo si el caracter en el cabezal es el buscado
 		if char_chequeo != self.cinta[self.pos]:
 			raise TuringCintaException ("Tape head doesn't match head character")
 		
-		# at this point the head is over the same character we are looking for
-		#  change the head character to the new character
+		# en este paso, el cabezal se encuentra sobre el caracter buscado.
+		# se cambia el caracter del cabezal por el nuevo caracter
 		self.cinta[self.pos] = char_nuevo
 		
 		if direccion == "I":
@@ -128,30 +115,18 @@ class Cinta:
 			pr(ch)
 		pr("\n"); pr(" "*self.pos + "^"); pr("\n")
 
-	def mostrar_2(self,main_window):
-		cad = "<p><span style=color:blue;>"
+	def mostrar_2(self,main_window,j):
+		cad = "<p><span style=color:#736F6E;><B>Paso "+ str(j) +" = " + "</B></span>" + "<span style=color:blue;>"
 		i = 0
 		for ch in self.cinta:
 			if i == self.status:
 				ch = "</span><span style=color:red;>" + ch + "</span><span style=color:blue;>"
-				#"<p style=/color:#FF0000>" </p>
 			i = i + 1
-			print i
 			cad = cad + ch
 		cad = cad + "</span></p>"
-		print cad
-		#main_window.imprimir_html(cad)
 		main_window.imprimir(cad)
 
-		
-	"""
-	def mostrar(self):
-		cad = ""
-		for ch in self.cinta:
-			cad = cad + ch
-		print "Self.pos = ",self.pos
-		return (cad, self.pos)
-	"""
+# LOGICA DE LA MAQUINA DE TURING
 """
 Se utiliza diccionario para la la estructura de programa para la MT
     Los pasos del Algoritmo:
@@ -164,9 +139,10 @@ Se utiliza diccionario para la la estructura de programa para la MT
 	7. Setea el estado actual al nuevo estado
 	8. Escribe en la cinta y mueve el cabezal
 
-Program Layout: (El diccionario)
+Program: (El diccionario)
     [estado][char_in] --> [(estado_destino, char_out, movimiento)]
 """
+
 ######################################################
 
 class MaquinaTuring(Persistencia):
@@ -188,6 +164,7 @@ class MaquinaTuring(Persistencia):
 	
 	def reinit(self,cadena):
 		self.lenStr = len(cadena)
+		self.cinta = None
 		self.cinta = Cinta(cadena,0,self.blanco)
 		
 	#----------------------------------------------------#	
@@ -208,41 +185,31 @@ class MaquinaTuring(Persistencia):
 	#----------------------------------------------------#
 
 	def paso(self):
-		""" Pasos 1 - 3 """
-		if self.lenStr == 0 and self.estado in self.conj_estados_finales_aceptadores: return "Acepto"
-		if self.estado in self.conj_estados_finales_aceptadores: return "Acepto" 
+		# Pasos 1 - 3 """
+		if self.lenStr == 0 and self.estado in self.conj_estados_finales_aceptadores: 
+			print "cadena vacia"
+			return "Acepto"
+		if self.estado in self.conj_estados_finales_aceptadores: 
+			print "estado acep"
+			return "Acepto" 
 		if self.estado not in self.program.keys(): return "Error"
 		
-		""" Pasos 4 y 5 """
+		# Pasos 4 y 5 """
 		head = self.cinta.leer()
 		if head not in self.program[self.estado].keys(): return "Error"
 			
-		""" Pasos 6 y 7 """
-		# ejecutar la transcision
-		
-		print "1 = ", self.program[self.estado][head]
-		
+		# Pasos 6 y 7
 		(estado_destino, char_out, movimiento) = self.program[self.estado][head]
-		
-		print "2 = ", (estado_destino, char_out, movimiento)
-		
 		self.estado = estado_destino
-		try:
-			""" Paso 8 """
+		
+		# Paso 8
+		try:	
 			self.cinta.mover(head, char_out, movimiento)
 		except TuringCintaException, s:
 			print s
 	
 	#----------------------------------------------------#
-	"""
-	def ejecutar(self):
-		try:
-			while run:
-				self.cinta.mostrar()
-				self.paso()
-		except (TuringErrorException, TuringAceptoException), s:
-			print s
-	"""		
+
 	def ejecutar(self):
 		run = True
 		while run:
@@ -256,39 +223,4 @@ class MaquinaTuring(Persistencia):
 ######################################################
 
 if __name__ == "__main__":
-	
-	### Definicion de los componentes de la Maquina de Turing ###
-	# Q = conjunto de estados	
-	conj_estados = ['a','b']
-	# E = alfabeto de entrada
-	alfabeto_entrada = ['1','2']
-	# s = estado inicial
-	estado_inicial = 'a'
-	# b = simbolo blanco
-	char_blanco = "@"
-	# cadena
-	cadena = "22121"
-	# F = conjunto de estados finales aceptadores
-	conj_estados_finales_aceptadores = ['b']
-	# Creacion de la Maquina de Turing completa
-	mt = MaquinaTuring(conj_estados,alfabeto_entrada,estado_inicial,char_blanco,conj_estados_finales_aceptadores)
-	# El metodo agregarTransicion(estado_origen,caracter_leido,estado_destino,caracter_escrito,movimiento)
-	
-	mt.agregarTransicion('a','1','a','1','D')
-	mt.agregarTransicion('a','2','a','1','D')
-	mt.agregarTransicion('a','@','b','@','I')
-	
-	mt.reinit(cadena)
-	mt.ejecutar()
-    
-	# Crear el Manejador
-	#manejador = Manejador()
-	# Ejecutar el Manejador
-	#manejador.inicio()
-	#manejador.run(mt)
-    
-    #mt.guardar(mt,"file_test.mtc")
-	# ejecutar la maquina
-	#mt.ejecutar()
-		
-	#m.cargar("file_1")
+	pass

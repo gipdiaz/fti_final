@@ -2,17 +2,21 @@
 # -*- coding: utf-8 -*-
 
 import os,sys
+import time
 from PyQt4 import QtCore,QtGui
 from gui.window import Ui_MainWindow
 from gui.dialog import Ui_Dialog
 from core.turing import MaquinaTuring
 
-#HOME_PATH = os.path.expanduser('~') + os.sep
-PATH_ACTUAL = os.path.abspath("") + os.sep + "maquinas" + os.sep
+
+
 ######################################################
 
 class Vars():
     file_name = "default"
+    PATH_ACTUAL = os.path.abspath("") + os.sep + "maquinas" + os.sep
+    paso = 1
+    run = True
     
 ######################################################
     
@@ -30,7 +34,7 @@ class FileDialog(QtGui.QFileDialog):
     #----------------------------------------------------#
 
     def abrir(self):
-        self.nombreArchivo = str(self.getOpenFileName(self,"", PATH_ACTUAL + Vars.file_name,"Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog))
+        self.nombreArchivo = str(self.getOpenFileName(self,"", Vars.PATH_ACTUAL + Vars.file_name,"Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog))
         print self.nombreArchivo
         if self.nombreArchivo == "":
             return "None"
@@ -40,7 +44,7 @@ class FileDialog(QtGui.QFileDialog):
     #----------------------------------------------------#  
         
     def guardar(self):
-        Vars.file_name = str(self.getSaveFileName(self,"", PATH_ACTUAL, "Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog)) + ".mtc"
+        Vars.file_name = str(self.getSaveFileName(self,"", Vars.PATH_ACTUAL, "Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog)) + ".mtc"
         if self.nombreArchivo == "":
             return "None"
         else:
@@ -58,16 +62,6 @@ class MainWindow(QtGui.QMainWindow):
         self.ui=Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.transcisionesWidget
-        
-    #----------------------------------------------------#    
-        
-    def imprimirConsola(self):
-        self.ui.CintatextBrowser.setTextBackgroundColor(QtGui.QColor.fromRgb(12,233,47))
-        self.ui.CintatextBrowser.setAcceptRichText(True)
-        i=1
-        while i<20:
-            self.ui.CintatextBrowser.append("APPEND")
-            i = i+1
     
     #----------------------------------------------------#
     
@@ -76,16 +70,19 @@ class MainWindow(QtGui.QMainWindow):
         # set objetos "enable"
         self.ui.EstadosText.setEnabled(True)
         self.ui.EstadosText.setToolTip("'a,b,c' sino 'a b c'")
-        self.ui.EstadosText.setText("")
+        self.ui.EstadosText.clear()
         self.ui.AlfabetoText.setEnabled(True)
         self.ui.AlfabetoText.setToolTip("'1,2,3' sino '1 2 3'")
-        self.ui.AlfabetoText.setText("")
+        self.ui.AlfabetoText.clear()
         self.ui.EstadosAcepText.setEnabled(True)
-        self.ui.EstadosAcepText.setText("")
+        self.ui.EstadosAcepText.setToolTip("'a,b,c' sino 'a b c'")
+        self.ui.EstadosAcepText.clear()
         self.ui.SimbBlancoText.setEnabled(True)
-        self.ui.SimbBlancoText.setText("")
+        self.ui.SimbBlancoText.setToolTip("'@' sino '#' sino '&' sino 'Cualquier caracter'")
+        self.ui.SimbBlancoText.clear()
         self.ui.EstadoIniText.setEnabled(True)
-        self.ui.EstadoIniText.setText("")
+        self.ui.EstadoIniText.setToolTip("'a' sino 'b' sino 'c'")
+        self.ui.EstadoIniText.clear()
                 
         # set objetos "disable"
         self.ui.comboBox.setEnabled(False)
@@ -94,7 +91,9 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.comboBox_4.setEnabled(False)
         self.ui.comboBox_5.setEnabled(False)
         self.ui.transcisionesWidget.setEnabled(False)
+        self.ui.transcisionesWidget.clear()
         self.ui.CintatextBrowser.setEnabled(False)
+        self.ui.CintatextBrowser.clear()
         self.ui.AgregarTransicionBoton.setEnabled(False)
         self.ui.BorrarTransicionBoton.setEnabled(False)
         
@@ -117,6 +116,11 @@ class MainWindow(QtGui.QMainWindow):
     
     def imprimir(self,msj):
         self.ui.CintatextBrowser.append(msj)
+        self.ui.CintatextBrowser.show()
+        
+        #self.ui.CintatextBrowser.append(msj)
+        #self.ui.CintatextBrowser.setVisible(True)
+        #self.ui.CintatextBrowser.append(msj)
      
     #----------------------------------------------------#
         
@@ -175,27 +179,78 @@ class SimTur():
     #----------------------------------------------------#
 
     def ejecutar(self):
-        self.main_window.mostrar("")
-        self.cadena = self.main_window.ui.CadenaText.toPlainText()
-        self.mt.reinit(str(self.cadena))
-        
-        run = True
-                  
-        while run:
-            self.mt.cinta.mostrar_2(self.main_window)
-            aux = self.mt.paso()
-            if (aux == "Acepto") or (aux == "Error"):
-                run = False
-        self.main_window.imprimir(aux) 
+        if self.cadena != "":
+            self.main_window.mostrar("")
+            cad = "<span style=color:#736F6E;>" "<B>" + "... Iniciando la Maquina de Turing ..." + "</B>" "</span>"
+            self.main_window.mostrar(cad)
+            self.cadena = self.main_window.ui.CadenaText.toPlainText()
+            self.mt.reinit(str(self.cadena))
+            self.mt.estado = self.mt.estado_inicial
+            run = True
+            j = 1
+            while run:
+                self.mt.cinta.mostrar_2(self.main_window,j)
+                aux = self.mt.paso()
+                j = j + 1
+                if (aux == "Acepto"):
+                    aux = "<span style=color:#736F6E;>" "<B>" + "... Finalizo la Maquina de Turing ..." + "</B>" "</span>"
+                    run = False
+                if (aux == "Error"):
+                    aux = "<span style=color:red;>" "<B>" + "... Ocurrio un Error ..." + "</B>" "</span>"
+                    run = False
+            self.main_window.imprimir(aux)
+        else:
+            msj = "<span style=color:red;>" + "Error : Ingrese una cadena" + "</span>"
+            self.main_window.mostrar(msj)     
             
+    #----------------------------------------------------#
+    
+    def pasoapaso(self):
+        if self.cadena != "":
+            # Verifico si es el inicio de la Maquina Turing
+            if Vars.paso == 1:
+                self.main_window.mostrar("")
+                cad = "<span style=color:#736F6E;>" "<B>" + "... Iniciando la Maquina de Turing ..." + "</B>" "</span>"
+                self.main_window.mostrar(cad)
+                self.cadena = self.main_window.ui.CadenaText.toPlainText()
+                self.mt.reinit(str(self.cadena))
+                self.mt.estado = self.mt.estado_inicial
+                Vars.run = True
+            
+            # Verifico sino termino la Maquina Turing
+            if Vars.run == True:
+                self.mt.cinta.mostrar_2(self.main_window,Vars.paso)
+                aux = self.mt.paso()
+                print Vars.paso, aux
+                Vars.paso = Vars.paso + 1
+                if (aux == "Acepto"):
+                    aux = "<span style=color:#736F6E;>" "<B>" + "... Finalizo la Maquina de Turing ..." + "</B>" "</span>"
+                    Vars.run = False
+                if (aux == "Error"):
+                    aux = "<span style=color:red;>" "<B>" + "... Ocurrio un Error ..." + "</B>" "</span>"
+                    Vars.run = False
+            if Vars.run == False:
+                Vars.paso = 1
+                self.main_window.imprimir(aux)
+        else:
+            msj = "<span style=color:red;>" + "Error : Ingrese una cadena" + "</span>"
+            self.main_window.mostrar(msj)
+
+    #----------------------------------------------------#
+            
+    def detener(self):
+        Vars.paso = 1
+        Vars.run = False
+        self.main_window.ui.CintatextBrowser.clear()
+        
+            
+    
     #----------------------------------------------------#
             
     def guardar(self):
         file_name = self.file_dialog.guardar()
         if file_name != "None":
             self.mt.guardar(self, file_name)
-        else:
-            print "cancelo el save"
         
     #----------------------------------------------------#
 
@@ -243,9 +298,20 @@ class SimTur():
             self.main_window.ui.SimbBlancoText.setText(self.char_blanco)
             
             list_items = self.mt.getItems()
+            
+            self.main_window.ui.transcisionesWidget.setColumnCount(5)
+            self.main_window.ui.transcisionesWidget.setContentsMargins(1, 1, 1, 1)
+            self.main_window.ui.transcisionesWidget.setAllColumnsShowFocus(True)
+            self.main_window.ui.transcisionesWidget.setColumnWidth(0,55)
+            self.main_window.ui.transcisionesWidget.setColumnWidth(1,55)
+            self.main_window.ui.transcisionesWidget.setColumnWidth(2,55)
+            self.main_window.ui.transcisionesWidget.setColumnWidth(3,55)
+            self.main_window.ui.transcisionesWidget.setColumnWidth(4,55)
+            
             i=0
             for i in list_items:
                 item = QtGui.QTreeWidgetItem(i)
+                
                 self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
             
             self.main_window.ui.actionNueva.setDisabled(False)
@@ -256,9 +322,7 @@ class SimTur():
             self.main_window.ui.actionPaso.setDisabled(False)
             self.main_window.ui.actionDetener.setDisabled(False)
             self.main_window.ui.actionCargar.setDisabled(False)
-        else:
-            print "cancelo el open"
-                          
+                  
     #----------------------------------------------------#
             
     def limpiar(self):
@@ -298,14 +362,15 @@ class SimTur():
         QtCore.QObject.connect(self.main_window.ui.aceptarTuringBoton, QtCore.SIGNAL(("clicked()")), self.validarTuring)
         QtCore.QObject.connect(self.main_window.ui.AgregarTransicionBoton, QtCore.SIGNAL(("clicked()")), self.agregarTransicion)
         QtCore.QObject.connect(self.main_window.ui.actionEjecutar, QtCore.SIGNAL(("activated()")), self.ejecutar)
-        QtCore.QObject.connect(self.main_window.ui.actionCerrar, QtCore.SIGNAL(("activated()")), self.main_window.nueva)
+        #QtCore.QObject.connect(self.main_window.ui.actionCerrar, QtCore.SIGNAL(("activated()")), self.main_window.nueva)
+        QtCore.QObject.connect(self.main_window.ui.actionPaso, QtCore.SIGNAL(("activated()")), self.pasoapaso)
+        QtCore.QObject.connect(self.main_window.ui.actionDetener, QtCore.SIGNAL(("activated()")), self.detener)
             
     #----------------------------------------------------#
             
     def validarTuring(self):
         carga_datos_flag = True
         self.main_window.mostrar("")
-        self.main_window.ui.CintatextBrowser.setTextColor(QtGui.QColor.fromRgb(255,0,0))
         
         # reset de variables
         self.conj_estados = []
@@ -404,10 +469,8 @@ class SimTur():
     
     def agregarTransicion(self):
         transicion = [ str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText())]
-        #print transicion
         item = QtGui.QTreeWidgetItem(transicion)
         self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
-        
         self.mt.agregarTransicion(str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText()), transicion)
  
 ######################################################
