@@ -187,10 +187,10 @@ class SimTur():
                 aux = self.mt.paso()
                 j = j + 1
                 if (aux == "Acepto"):
-                    aux = "<span style=color:#736F6E;>" "<B>" + "... Finalizo la Maquina de Turing ..." + "</B>" "</span>"
+                    aux = "<span style=color:#736F6E;>" "<B>" + "... Acepto la cadena ..." + "</B>" "</span>"
                     run = False
                 if (aux == "Error"):
-                    aux = "<span style=color:red;>" "<B>" + "... Ocurrio un Error ..." + "</B>" "</span>"
+                    aux = "<span style=color:red;>" "<B>" + "... Rechazo la cadena ..." + "</B>" "</span>"
                     run = False
             self.main_window.imprimir(aux)
         else:
@@ -218,10 +218,10 @@ class SimTur():
                 print Vars.paso, aux
                 Vars.paso = Vars.paso + 1
                 if (aux == "Acepto"):
-                    aux = "<span style=color:#736F6E;>" "<B>" + "... Finalizo la Maquina de Turing ..." + "</B>" "</span>"
+                    aux = "<span style=color:#736F6E;>" "<B>" + "... Acepto la cadena ..." + "</B>" "</span>"
                     Vars.run = False
                 if (aux == "Error"):
-                    aux = "<span style=color:red;>" "<B>" + "... Ocurrio un Error ..." + "</B>" "</span>"
+                    aux = "<span style=color:red;>" "<B>" + "... Rechazo la cadena ..." + "</B>" "</span>"
                     Vars.run = False
             if Vars.run == False:
                 Vars.paso = 1

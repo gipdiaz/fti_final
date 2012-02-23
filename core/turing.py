@@ -97,7 +97,7 @@ class Cinta:
 
 	def mover_izq(self):
 		if self.pos <= 0: 
-			self.cinta.insert(-1, self.blank)
+			self.cinta.insert(-1, self.blanco)
 			self.pos = 0
 		else:
 			self.pos += -1
@@ -185,17 +185,20 @@ class MaquinaTuring(Persistencia):
 	#----------------------------------------------------#
 
 	def paso(self):
+		
+		head = self.cinta.leer()
 		# Pasos 1 - 3 """
 		if self.lenStr == 0 and self.estado in self.conj_estados_finales_aceptadores: 
 			print "cadena vacia"
 			return "Acepto"
-		if self.estado in self.conj_estados_finales_aceptadores: 
+		if self.estado in self.conj_estados_finales_aceptadores and head == self.blanco: 
 			print "estado acep"
 			return "Acepto" 
 		if self.estado not in self.program.keys(): return "Error"
 		
 		# Pasos 4 y 5 """
-		head = self.cinta.leer()
+		#head = self.cinta.leer()
+		print "head = ", head
 		if head not in self.program[self.estado].keys(): return "Error"
 			
 		# Pasos 6 y 7
