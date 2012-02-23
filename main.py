@@ -41,7 +41,8 @@ class FileDialog(QtGui.QFileDialog):
     #----------------------------------------------------#  
         
     def guardar(self):
-        Vars.file_name = str(self.getSaveFileName(self,"", Vars.PATH_ACTUAL, "Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog)) + ".mtc"
+        self.nombreArchivo = str(self.getSaveFileName(self,"", Vars.PATH_ACTUAL, "Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog)) + ".mtc"
+        print self.nombreArchivo
         if self.nombreArchivo == "":
             return "None"
         else:
@@ -172,11 +173,11 @@ class SimTur():
     #----------------------------------------------------#
 
     def ejecutar(self):
+        self.cadena = self.main_window.ui.CadenaText.toPlainText()
         if self.cadena != "":
             self.main_window.mostrar("")
             cad = "<span style=color:#736F6E;>" "<B>" + "... Iniciando la Maquina de Turing ..." + "</B>" "</span>"
             self.main_window.mostrar(cad)
-            self.cadena = self.main_window.ui.CadenaText.toPlainText()
             self.mt.reinit(str(self.cadena))
             self.mt.estado = self.mt.estado_inicial
             run = True
@@ -199,13 +200,13 @@ class SimTur():
     #----------------------------------------------------#
     
     def pasoapaso(self):
+        self.cadena = self.main_window.ui.CadenaText.toPlainText()
         if self.cadena != "":
             # Verifico si es el inicio de la Maquina Turing
             if Vars.paso == 1:
                 self.main_window.mostrar("")
                 cad = "<span style=color:#736F6E;>" "<B>" + "... Iniciando la Maquina de Turing ..." + "</B>" "</span>"
                 self.main_window.mostrar(cad)
-                self.cadena = self.main_window.ui.CadenaText.toPlainText()
                 self.mt.reinit(str(self.cadena))
                 self.mt.estado = self.mt.estado_inicial
                 Vars.run = True
