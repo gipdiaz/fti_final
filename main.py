@@ -114,10 +114,6 @@ class MainWindow(QtGui.QMainWindow):
     def imprimir(self,msj):
         self.ui.CintatextBrowser.append(msj)
         self.ui.CintatextBrowser.show()
-        
-        #self.ui.CintatextBrowser.append(msj)
-        #self.ui.CintatextBrowser.setVisible(True)
-        #self.ui.CintatextBrowser.append(msj)
      
     #----------------------------------------------------#
         
