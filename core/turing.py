@@ -85,6 +85,8 @@ class Cinta:
 		elif direccion == "D":
 			self.mover_der()
 			self.status = self.status + 1
+		elif direccion == "-":
+			pass
 		else: raise TuringCintaException ("La Direccion es Invalida")
 
 	#----------------------------------------------------#
@@ -181,6 +183,26 @@ class MaquinaTuring(Persistencia):
 
 		tup = (estado_destino, char_out, movimiento)
 		self.program[estado][char_in] = tup
+
+	#----------------------------------------------------#
+
+	#str(item.text(0)) , str(item.text(1)) , str(item.text(2)), str(item.text(3)), str(item.text(4))
+	def borrarTransicion(self, estado, char_in, estado_destino, char_out, movimiento, item):
+		self.list_item.remove(item)
+		if self.program.has_key(estado):
+			print "transicion a borrar", self.program[estado][char_in]
+			print "transiciones del estado antes", self.program[estado]
+			aux = self.program[estado].pop(char_in)
+			#self.program[estado] = aux.pop(char_in)
+			print "transiciones del estado despues", self.program[estado]
+			
+		"""
+		if not self.program.has_key(estado):
+			self.program[estado] = {}
+
+		tup = (estado_destino, char_out, movimiento)
+		self.program[estado][char_in] = tup
+		"""
 
 	#----------------------------------------------------#
 

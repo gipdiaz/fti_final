@@ -133,7 +133,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.comboBox_2.addItems(datos.alfabeto_entrada + [datos.char_blanco])
         self.ui.comboBox_3.addItems(datos.conj_estados)
         self.ui.comboBox_4.addItems(datos.alfabeto_entrada + [datos.char_blanco])
-        self.ui.comboBox_5.addItems(['D','I'])
+        self.ui.comboBox_5.addItems(['D','I', '-'])
     
     #----------------------------------------------------#
         
@@ -350,15 +350,16 @@ class SimTur():
     #----------------------------------------------------#     
     
     def setSignals(self):
-        QtCore.QObject.connect(self.main_window.ui.actionAbrir, QtCore.SIGNAL(("activated()")), self.abrir)
-        QtCore.QObject.connect(self.main_window.ui.actionGuardar, QtCore.SIGNAL(("activated()")), self.guardar)
-        QtCore.QObject.connect(self.main_window.ui.actionNueva, QtCore.SIGNAL(("activated()")), self.main_window.nueva)
-        QtCore.QObject.connect(self.main_window.ui.actionCerrar, QtCore.SIGNAL(("activated()")), self.main_window.nueva)
+        QtCore.QObject.connect(self.main_window.ui.actionAbrir, QtCore.SIGNAL(("triggered()")), self.abrir)
+        QtCore.QObject.connect(self.main_window.ui.actionGuardar, QtCore.SIGNAL(("triggered()")), self.guardar)
+        QtCore.QObject.connect(self.main_window.ui.actionNueva, QtCore.SIGNAL(("triggered()")), self.main_window.nueva)
+        QtCore.QObject.connect(self.main_window.ui.actionCerrar, QtCore.SIGNAL(("triggered()")), self.main_window.nueva)
         QtCore.QObject.connect(self.main_window.ui.aceptarTuringBoton, QtCore.SIGNAL(("clicked()")), self.validarTuring)
         QtCore.QObject.connect(self.main_window.ui.AgregarTransicionBoton, QtCore.SIGNAL(("clicked()")), self.agregarTransicion)
-        QtCore.QObject.connect(self.main_window.ui.actionEjecutar, QtCore.SIGNAL(("activated()")), self.ejecutar)
-        QtCore.QObject.connect(self.main_window.ui.actionPaso, QtCore.SIGNAL(("activated()")), self.pasoapaso)
-        QtCore.QObject.connect(self.main_window.ui.actionDetener, QtCore.SIGNAL(("activated()")), self.detener)
+        QtCore.QObject.connect(self.main_window.ui.actionEjecutar, QtCore.SIGNAL(("triggered()")), self.ejecutar)
+        QtCore.QObject.connect(self.main_window.ui.actionPaso, QtCore.SIGNAL(("triggered()")), self.pasoapaso)
+        QtCore.QObject.connect(self.main_window.ui.actionDetener, QtCore.SIGNAL(("triggered()")), self.detener)
+        QtCore.QObject.connect(self.main_window.ui.BorrarTransicionBoton, QtCore.SIGNAL(("clicked()")), self.borrarTransicion)
             
     #----------------------------------------------------#
             
@@ -462,11 +463,27 @@ class SimTur():
     #----------------------------------------------------#
     
     def agregarTransicion(self):
+
         transicion = [ str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText())]
         item = QtGui.QTreeWidgetItem(transicion)
         self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
         self.mt.agregarTransicion(str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText()), transicion)
- 
+    
+    #----------------------------------------------------#
+        
+    def borrarTransicion(self):
+        #item = QtGui.QTreeWidgetItem()
+        item = self.main_window.ui.transcisionesWidget.currentItem()
+        transicion = [str(item.text(0)) , str(item.text(1)) , str(item.text(2)), str(item.text(3)), str(item.text(4))]
+        print transicion
+        self.mt.borrarTransicion(str(item.text(0)) , str(item.text(1)) , str(item.text(2)), str(item.text(3)), str(item.text(4)), transicion)
+        self.main_window.ui.transcisionesWidget.removeItemWidget(item,0)
+        self.main_window.ui.transcisionesWidget.removeItemWidget(item,1)
+        self.main_window.ui.transcisionesWidget.removeItemWidget(item,2)
+        self.main_window.ui.transcisionesWidget.removeItemWidget(item,3)
+        self.main_window.ui.transcisionesWidget.removeItemWidget(item,4)
+        
+            
 ######################################################
  
 if __name__ == "__main__":
