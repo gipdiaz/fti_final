@@ -205,7 +205,7 @@ class Ui_MainWindow(object):
         self.actionPaso = QtGui.QAction(MainWindow)
         icon9 = QtGui.QIcon()
         icon9.addPixmap(QtGui.QPixmap(_fromUtf8(":/newPrefix/iconos/Forward.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        icon9.addPixmap(QtGui.QPixmap(_fromUtf8(":/newPrefix/iconos/Stop playing.png")), QtGui.QIcon.Disabled, QtGui.QIcon.Off)
+        #icon9.addPixmap(QtGui.QPixmap(_fromUtf8(":/newPrefix/iconos/Stop playing.png")), QtGui.QIcon.Disabled, QtGui.QIcon.Off)
         self.actionPaso.setIcon(icon9)
         self.actionPaso.setObjectName(_fromUtf8("actionPaso"))
         self.actionDetener = QtGui.QAction(MainWindow)

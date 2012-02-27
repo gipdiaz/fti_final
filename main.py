@@ -32,7 +32,7 @@ class FileDialog(QtGui.QFileDialog):
 
     def abrir(self):
         self.nombreArchivo = str(self.getOpenFileName(self,"", Vars.PATH_ACTUAL + Vars.file_name,"Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog))
-        print self.nombreArchivo
+        #print self.nombreArchivo
         if self.nombreArchivo == "":
             return "None"
         else:
@@ -42,7 +42,7 @@ class FileDialog(QtGui.QFileDialog):
         
     def guardar(self):
         self.nombreArchivo = str(self.getSaveFileName(self,"", Vars.PATH_ACTUAL, "Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog)) + ".mtc"
-        print self.nombreArchivo
+        #print self.nombreArchivo
         if self.nombreArchivo == "":
             return "None"
         else:
@@ -64,7 +64,15 @@ class MainWindow(QtGui.QMainWindow):
     #----------------------------------------------------#
     
     def nueva(self):
-        
+        self.ui.transcisionesWidget.setColumnCount(5)
+        self.ui.transcisionesWidget.setContentsMargins(1, 1, 1, 1)
+        self.ui.transcisionesWidget.setAllColumnsShowFocus(True)
+        self.ui.transcisionesWidget.setColumnWidth(0,55)
+        self.ui.transcisionesWidget.setColumnWidth(1,55)
+        self.ui.transcisionesWidget.setColumnWidth(2,55)
+        self.ui.transcisionesWidget.setColumnWidth(3,55)
+        self.ui.transcisionesWidget.setColumnWidth(4,55)
+    
         # set objetos "enable"
         self.ui.EstadosText.setEnabled(True)
         self.ui.EstadosText.setToolTip("'a,b,c' sino 'a b c'")
@@ -215,7 +223,6 @@ class SimTur():
             if Vars.run == True:
                 self.mt.cinta.mostrar_2(self.main_window,Vars.paso)
                 aux = self.mt.paso()
-                print Vars.paso, aux
                 Vars.paso = Vars.paso + 1
                 if (aux == "Acepto"):
                     aux = "<span style=color:#736F6E;>" "<B>" + "... Acepto la cadena ..." + "</B>" "</span>"
@@ -223,6 +230,10 @@ class SimTur():
                 if (aux == "Error"):
                     aux = "<span style=color:red;>" "<B>" + "... Rechazo la cadena ..." + "</B>" "</span>"
                     Vars.run = False
+                else:
+                    pass
+                    #self.seleccionarTransicion(aux)
+                
             if Vars.run == False:
                 Vars.paso = 1
                 self.main_window.imprimir(aux)
@@ -237,14 +248,13 @@ class SimTur():
         Vars.run = False
         self.main_window.ui.CintatextBrowser.clear()
         
-            
-    
     #----------------------------------------------------#
             
     def guardar(self):
         file_name = self.file_dialog.guardar()
         if file_name != "None":
             self.mt.guardar(self, file_name)
+            self.main_window.setWindowTitle(QtGui.QApplication.translate("MainWindow", "SIMTUR - Simulador Maquina de Turing" + " : " + "'"+ self.nombreArchivo() + "'", None, QtGui.QApplication.UnicodeUTF8))
         
     #----------------------------------------------------#
 
@@ -317,8 +327,31 @@ class SimTur():
             self.main_window.ui.actionDetener.setDisabled(False)
             self.main_window.ui.actionCargar.setDisabled(False)
                   
+            self.conj_estados = list_estados 
+            self.alfabeto_entrada = list_alfabeto
+            self.conj_estados_finales_aceptadores = list_estados_acep
+
+            self.main_window.activarTransicion(self)
+            
+            self.main_window.setWindowTitle(QtGui.QApplication.translate("MainWindow", "SIMTUR - Simulador Maquina de Turing" + " : " + "'"+ self.nombreArchivo() + "'", None, QtGui.QApplication.UnicodeUTF8))
+                  
     #----------------------------------------------------#
             
+    def nombreArchivo(self):
+        aux = ""
+        
+        name = self.file_dialog.nombreArchivo
+        for i in name:
+            if i != "/":
+                aux = aux + i
+            else:
+                aux = ""
+            if i == ".":
+                return aux
+                
+                
+    
+    
     def limpiar(self):
         self.main_window.ui.EstadosText.setEnabled(True)
         self.main_window.ui.EstadosText.setText("")
@@ -384,14 +417,17 @@ class SimTur():
         
         # Verificacion del alfabeto de entrada
         alfabeto_entrada = self.main_window.ui.AlfabetoText.toPlainText()
+        
         for i in alfabeto_entrada:
             i = str(i)
+            """
             if i in self.conj_estados:
                 self.main_window.mostrar("Error en la carga del Alfabeto")
                 self.main_window.ui.AlfabetoText.selectAll()
                 self.main_window.ui.AlfabetoText.setFocus()
                 carga_datos_flag = carga_datos_flag and False
                 break
+            """
             if (i != ',') and (i != " ") and (i != "\t"):
                 self.alfabeto_entrada.append(i)
                 carga_datos_flag = carga_datos_flag and True   
@@ -399,6 +435,7 @@ class SimTur():
         # Verificacion de estados aceptadores
         conj_estados_finales_aceptadores_2 = []
         conj_estados_finales_aceptadores_1 = self.main_window.ui.EstadosAcepText.toPlainText()
+        
         for i in conj_estados_finales_aceptadores_1:
             i = str(i)
             if (i != ',') and (i != " ") and (i != "\t"):
@@ -415,6 +452,7 @@ class SimTur():
                 break
         
         char_blanco = self.main_window.ui.SimbBlancoText.toPlainText()
+        
         if char_blanco in self.alfabeto_entrada:
             self.main_window.mostrar("Error en la carga del Simbolo Blanco")
             self.main_window.ui.SimbBlancoText.selectAll()
@@ -423,7 +461,7 @@ class SimTur():
         else:
             self.char_blanco = char_blanco
             carga_datos_flag = carga_datos_flag and True
-        
+            
         estado_inicial = self.main_window.ui.EstadoIniText.toPlainText()
         if estado_inicial in self.conj_estados:
             self.estado_inicial = estado_inicial
@@ -433,12 +471,12 @@ class SimTur():
             self.main_window.ui.EstadoIniText.selectAll()
             self.main_window.ui.EstadoIniText.setFocus()
             carga_datos_flag = carga_datos_flag and False
-        
-        print "Conjunto de Estados: ", self.conj_estados
-        print "Alfabeto: ", self.alfabeto_entrada
-        print "Conjunto de Estados Aceptadores: ", self.conj_estados_finales_aceptadores
-        print "Simbolo Blanco: ", self.char_blanco
-        print "Estado Inicial: ", self.estado_inicial
+            
+        #print "Conjunto de Estados: ", self.conj_estados
+        #print "Alfabeto: ", self.alfabeto_entrada
+        #print "Conjunto de Estados Aceptadores: ", self.conj_estados_finales_aceptadores
+        #print "Simbolo Blanco: ", self.char_blanco
+        #print "Estado Inicial: ", self.estado_inicial
         
         if carga_datos_flag == True:
             self.main_window.activarTransicion(self)
@@ -465,23 +503,42 @@ class SimTur():
     def agregarTransicion(self):
 
         transicion = [ str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText())]
-        item = QtGui.QTreeWidgetItem(transicion)
-        self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
-        self.mt.agregarTransicion(str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText()), transicion)
+        if transicion != ['', '', '', '', '']:
+            item = QtGui.QTreeWidgetItem(transicion)
+            self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
+            self.mt.agregarTransicion(str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText()), transicion)
     
     #----------------------------------------------------#
         
     def borrarTransicion(self):
-        #item = QtGui.QTreeWidgetItem()
         item = self.main_window.ui.transcisionesWidget.currentItem()
-        transicion = [str(item.text(0)) , str(item.text(1)) , str(item.text(2)), str(item.text(3)), str(item.text(4))]
-        print transicion
-        self.mt.borrarTransicion(str(item.text(0)) , str(item.text(1)) , str(item.text(2)), str(item.text(3)), str(item.text(4)), transicion)
-        self.main_window.ui.transcisionesWidget.removeItemWidget(item,0)
-        self.main_window.ui.transcisionesWidget.removeItemWidget(item,1)
-        self.main_window.ui.transcisionesWidget.removeItemWidget(item,2)
-        self.main_window.ui.transcisionesWidget.removeItemWidget(item,3)
-        self.main_window.ui.transcisionesWidget.removeItemWidget(item,4)
+        if item!= None:
+            transicion = [str(item.text(0)) , str(item.text(1)) , str(item.text(2)), str(item.text(3)), str(item.text(4))]
+            self.mt.borrarTransicion(str(item.text(0)) , str(item.text(1)) , str(item.text(2)), str(item.text(3)), str(item.text(4)), transicion)
+            self.main_window.ui.transcisionesWidget.removeItemWidget(item,0)
+            self.main_window.ui.transcisionesWidget.removeItemWidget(item,1)
+            self.main_window.ui.transcisionesWidget.removeItemWidget(item,2)
+            self.main_window.ui.transcisionesWidget.removeItemWidget(item,3)
+            self.main_window.ui.transcisionesWidget.removeItemWidget(item,4)
+        
+    """    
+    def seleccionarTransicion(self, aux):
+        a,b,c,d,e = aux
+        transicion = [str(a),str(b),str(c),str(d),str(e)]
+        print "transicion a seleccionar", transicion
+        item = QtGui.QTreeWidgetItem(transicion)
+        item.setSelected(True)
+        color = QtGui.QColor( 255,0,0)
+        
+        item.setBackgroundColor(1,color)
+        
+        self.main_window.ui.transcisionesWidget
+        
+        self.main_window.ui.transcisionesWidget.setCurrentItem(item)
+        self.main_window.ui.transcisionesWidget.scrollToItem(item)
+        #self.main_window.ui.transcisionesWidget.setcu   
+    """    
+        
         
             
 ######################################################
