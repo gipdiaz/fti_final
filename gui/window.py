@@ -18,7 +18,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(640, 480)
-        MainWindow.setMaximumSize(QtCore.QSize(16777215, 480))
+        MainWindow.setMaximumSize(QtCore.QSize(640, 480))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/newPrefix/iconos/Sharpness.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)

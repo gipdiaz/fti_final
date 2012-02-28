@@ -183,7 +183,6 @@ class MaquinaTuring(Persistencia):
 		
 	def agregarTransicion(self, estado, char_in, estado_destino, char_out, movimiento, item):
 		self.list_item.append(item)
-		#self.list_item_qt.append(item_qt)
 		if not self.program.has_key(estado):
 			self.program[estado] = {}
 
@@ -192,25 +191,11 @@ class MaquinaTuring(Persistencia):
 
 	#----------------------------------------------------#
 
-	#str(item.text(0)) , str(item.text(1)) , str(item.text(2)), str(item.text(3)), str(item.text(4))
 	def borrarTransicion(self, estado, char_in, estado_destino, char_out, movimiento, item):
 		self.list_item.remove(item)
 		#self.list_item_qt.remove(item_qt)
 		if self.program.has_key(estado):
-			#print "transicion a borrar", self.program[estado][char_in]
-			#print "transiciones del estado antes", self.program[estado]
 			aux = self.program[estado].pop(char_in)
-			#self.program[estado] = aux.pop(char_in)
-			#print "transiciones del estado despues", self.program[estado]
-			
-		"""
-		if not self.program.has_key(estado):
-			self.program[estado] = {}
-
-		tup = (estado_destino, char_out, movimiento)
-		self.program[estado][char_in] = tup
-		"""
-
 	#----------------------------------------------------#
 
 	def paso(self):
@@ -218,16 +203,12 @@ class MaquinaTuring(Persistencia):
 		head = self.cinta.leer()
 		# Pasos 1 - 3 """
 		if self.lenStr == 0 and self.estado in self.conj_estados_finales_aceptadores: 
-			#print "cadena vacia"
 			return "Acepto"
 		if self.estado in self.conj_estados_finales_aceptadores and head == self.blanco: 
-			#print "estado acep"
 			return "Acepto" 
 		if self.estado not in self.program.keys(): return "Error"
 		
 		# Pasos 4 y 5 """
-		#head = self.cinta.leer()
-		#print "head = ", head
 		if head not in self.program[self.estado].keys(): return "Error"
 			
 		# Pasos 6 y 7
@@ -241,7 +222,6 @@ class MaquinaTuring(Persistencia):
 			return (est, head, estado_destino,char_out, movimiento)
 		except TuringCintaException, s:
 			pass
-			#print s
 	
 	#----------------------------------------------------#
 
@@ -252,7 +232,6 @@ class MaquinaTuring(Persistencia):
 			aux = self.paso()
 			if (aux == "Acepto") or (aux == "Error"):
 				run = False
-		#print aux
 		return aux 
 
 ######################################################

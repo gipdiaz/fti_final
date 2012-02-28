@@ -32,7 +32,6 @@ class FileDialog(QtGui.QFileDialog):
 
     def abrir(self):
         self.nombreArchivo = str(self.getOpenFileName(self,"", Vars.PATH_ACTUAL + Vars.file_name,"Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog))
-        #print self.nombreArchivo
         if self.nombreArchivo == "":
             return "None"
         else:
@@ -42,7 +41,6 @@ class FileDialog(QtGui.QFileDialog):
         
     def guardar(self):
         self.nombreArchivo = str(self.getSaveFileName(self,"", Vars.PATH_ACTUAL, "Archivos - Maquina Turing Config (*.mtc)","", self.DontUseNativeDialog)) + ".mtc"
-        #print self.nombreArchivo
         if self.nombreArchivo == "":
             return "None"
         else:
@@ -66,7 +64,6 @@ class MainWindow(QtGui.QMainWindow):
     def nueva(self):
         self.ui.transcisionesWidget.setColumnCount(5)
         self.ui.transcisionesWidget.setAlternatingRowColors(True)
-        #self.ui.transcisionesWidget.set
         self.ui.transcisionesWidget.setContentsMargins(1, 1, 1, 1)
         self.ui.transcisionesWidget.setAllColumnsShowFocus(True)
         self.ui.transcisionesWidget.setColumnWidth(0,55)
@@ -91,6 +88,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.EstadoIniText.setEnabled(True)
         self.ui.EstadoIniText.setToolTip("'a' sino 'b' sino 'c'")
         self.ui.EstadoIniText.clear()
+        self.ui.aceptarTuringBoton.setEnabled(True)
                 
         # set objetos "disable"
         self.ui.comboBox.setEnabled(False)
@@ -163,6 +161,7 @@ class SimTur():
     def __init__(self):
         app = QtGui.QApplication(sys.argv)
         self.main_window=MainWindow()
+        self.main_window.setFixedSize(640,480)
         self.main_window.show()
         self.main_window.nueva()
         self.file_dialog=FileDialog()
@@ -173,8 +172,7 @@ class SimTur():
         self.char_blanco = ""
         self.cadena = ""
         self.conj_estados_finales_aceptadores = []
-        self.dic_item = {}
-        self.i = 0
+        self.list_items = [] 
         sys.exit(app.exec_())
     
     #----------------------------------------------------#
@@ -317,9 +315,10 @@ class SimTur():
             self.main_window.ui.transcisionesWidget.setColumnWidth(4,55)
             
             i=0
+            self.list_items = []
             for i in list_items:
+                self.list_items.append(i)
                 item = QtGui.QTreeWidgetItem(i)
-                
                 self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
             
             self.main_window.ui.actionNueva.setDisabled(False)
@@ -330,6 +329,13 @@ class SimTur():
             self.main_window.ui.actionPaso.setDisabled(False)
             self.main_window.ui.actionDetener.setDisabled(False)
             self.main_window.ui.actionCargar.setDisabled(False)
+            
+            self.main_window.ui.EstadosText.setEnabled(False)
+            self.main_window.ui.AlfabetoText.setEnabled(False)
+            self.main_window.ui.EstadosAcepText.setEnabled(False)
+            self.main_window.ui.SimbBlancoText.setEnabled(False)
+            self.main_window.ui.EstadoIniText.setEnabled(False)
+            self.main_window.ui.aceptarTuringBoton.setEnabled(False)
                   
             self.conj_estados = list_estados 
             self.alfabeto_entrada = list_alfabeto
@@ -476,12 +482,6 @@ class SimTur():
             self.main_window.ui.EstadoIniText.selectAll()
             self.main_window.ui.EstadoIniText.setFocus()
             carga_datos_flag = carga_datos_flag and False
-            
-        #print "Conjunto de Estados: ", self.conj_estados
-        #print "Alfabeto: ", self.alfabeto_entrada
-        #print "Conjunto de Estados Aceptadores: ", self.conj_estados_finales_aceptadores
-        #print "Simbolo Blanco: ", self.char_blanco
-        #print "Estado Inicial: ", self.estado_inicial
         
         if carga_datos_flag == True:
             self.main_window.activarTransicion(self)
@@ -508,15 +508,13 @@ class SimTur():
     def agregarTransicion(self):
 
         transicion = [ str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText())]
-        if transicion != ['', '', '', '', '']:
+        if ( transicion != ['', '', '', '', ''] ) and ( transicion not in self.list_items ):
+            self.list_items.append(transicion)
             item = QtGui.QTreeWidgetItem(transicion)
             self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
-            
-            self.dic_item[self.i] = (transicion)
-            self.i = self.i + 1
-            print "diccionario = ",self.dic_item
-            
-            self.mt.agregarTransicion(str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText()), item)
+            self.mt.agregarTransicion(str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText()), transicion)
+        else:
+            self.main_window.mostrar("<span style=color:red;>" "<B>" + "No se permite la carga de transiciones duplicadas" + "</B>" "</span>")
     
     #----------------------------------------------------#
         
@@ -530,18 +528,16 @@ class SimTur():
             self.main_window.ui.transcisionesWidget.removeItemWidget(item,2)
             self.main_window.ui.transcisionesWidget.removeItemWidget(item,3)
             self.main_window.ui.transcisionesWidget.removeItemWidget(item,4)
-        
+        else:
+            self.main_window.mostrar("<span style=color:red;>" "<B>" + "Debe seleccionar una transicion a borrar" + "</B>" "</span>")
     
     def seleccionarTransicion(self, aux):
         a,b,c,d,e = aux
         transicion = [str(a),str(b),str(c),str(d),str(e)]
-        print "transicion a seleccionar", transicion
-
         i = 0
         while i < self.main_window.ui.transcisionesWidget.topLevelItemCount():
             item = self.main_window.ui.transcisionesWidget.topLevelItem(i)
             item_transicion = [str(item.text(0)), str(item.text(1)), str(item.text(2)), str(item.text(3)), str(item.text(4))]
-            print "transicion item", item_transicion
             if transicion == item_transicion:
                 self.main_window.ui.transcisionesWidget.setCurrentItem(item)
                 break
