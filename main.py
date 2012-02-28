@@ -65,6 +65,8 @@ class MainWindow(QtGui.QMainWindow):
     
     def nueva(self):
         self.ui.transcisionesWidget.setColumnCount(5)
+        self.ui.transcisionesWidget.setAlternatingRowColors(True)
+        #self.ui.transcisionesWidget.set
         self.ui.transcisionesWidget.setContentsMargins(1, 1, 1, 1)
         self.ui.transcisionesWidget.setAllColumnsShowFocus(True)
         self.ui.transcisionesWidget.setColumnWidth(0,55)
@@ -171,6 +173,8 @@ class SimTur():
         self.char_blanco = ""
         self.cadena = ""
         self.conj_estados_finales_aceptadores = []
+        self.dic_item = {}
+        self.i = 0
         sys.exit(app.exec_())
     
     #----------------------------------------------------#
@@ -227,12 +231,12 @@ class SimTur():
                 if (aux == "Acepto"):
                     aux = "<span style=color:#736F6E;>" "<B>" + "... Acepto la cadena ..." + "</B>" "</span>"
                     Vars.run = False
-                if (aux == "Error"):
+                elif (aux == "Error"):
                     aux = "<span style=color:red;>" "<B>" + "... Rechazo la cadena ..." + "</B>" "</span>"
                     Vars.run = False
                 else:
                     pass
-                    #self.seleccionarTransicion(aux)
+                    self.seleccionarTransicion(aux)
                 
             if Vars.run == False:
                 Vars.paso = 1
@@ -334,6 +338,7 @@ class SimTur():
             self.main_window.activarTransicion(self)
             
             self.main_window.setWindowTitle(QtGui.QApplication.translate("MainWindow", "SIMTUR - Simulador Maquina de Turing" + " : " + "'"+ self.nombreArchivo() + "'", None, QtGui.QApplication.UnicodeUTF8))
+            self.main_window.ui.transcisionesWidget.setAlternatingRowColors(True)
                   
     #----------------------------------------------------#
             
@@ -506,7 +511,12 @@ class SimTur():
         if transicion != ['', '', '', '', '']:
             item = QtGui.QTreeWidgetItem(transicion)
             self.main_window.ui.transcisionesWidget.addTopLevelItem(item)
-            self.mt.agregarTransicion(str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText()), transicion)
+            
+            self.dic_item[self.i] = (transicion)
+            self.i = self.i + 1
+            print "diccionario = ",self.dic_item
+            
+            self.mt.agregarTransicion(str(self.main_window.ui.comboBox.currentText()) , str(self.main_window.ui.comboBox_2.currentText()) , str(self.main_window.ui.comboBox_3.currentText()), str(self.main_window.ui.comboBox_4.currentText()), str(self.main_window.ui.comboBox_5.currentText()), item)
     
     #----------------------------------------------------#
         
@@ -521,25 +531,21 @@ class SimTur():
             self.main_window.ui.transcisionesWidget.removeItemWidget(item,3)
             self.main_window.ui.transcisionesWidget.removeItemWidget(item,4)
         
-    """    
+    
     def seleccionarTransicion(self, aux):
         a,b,c,d,e = aux
         transicion = [str(a),str(b),str(c),str(d),str(e)]
         print "transicion a seleccionar", transicion
-        item = QtGui.QTreeWidgetItem(transicion)
-        item.setSelected(True)
-        color = QtGui.QColor( 255,0,0)
-        
-        item.setBackgroundColor(1,color)
-        
-        self.main_window.ui.transcisionesWidget
-        
-        self.main_window.ui.transcisionesWidget.setCurrentItem(item)
-        self.main_window.ui.transcisionesWidget.scrollToItem(item)
-        #self.main_window.ui.transcisionesWidget.setcu   
-    """    
-        
-        
+
+        i = 0
+        while i < self.main_window.ui.transcisionesWidget.topLevelItemCount():
+            item = self.main_window.ui.transcisionesWidget.topLevelItem(i)
+            item_transicion = [str(item.text(0)), str(item.text(1)), str(item.text(2)), str(item.text(3)), str(item.text(4))]
+            print "transicion item", item_transicion
+            if transicion == item_transicion:
+                self.main_window.ui.transcisionesWidget.setCurrentItem(item)
+                break
+            i = i + 1
             
 ######################################################
  

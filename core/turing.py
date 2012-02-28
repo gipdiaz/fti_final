@@ -175,9 +175,15 @@ class MaquinaTuring(Persistencia):
 		return self.list_item
 	
 	#----------------------------------------------------#
+	
+	def getItems_qt(self):
+		return self.list_item_qt
+	
+	#----------------------------------------------------#
 		
 	def agregarTransicion(self, estado, char_in, estado_destino, char_out, movimiento, item):
 		self.list_item.append(item)
+		#self.list_item_qt.append(item_qt)
 		if not self.program.has_key(estado):
 			self.program[estado] = {}
 
@@ -187,8 +193,9 @@ class MaquinaTuring(Persistencia):
 	#----------------------------------------------------#
 
 	#str(item.text(0)) , str(item.text(1)) , str(item.text(2)), str(item.text(3)), str(item.text(4))
-	def borrarTransicion(self, estado, char_in, estado_destino, char_out, movimiento, item):
+	def borrarTransicion(self, estado, char_in, estado_destino, char_out, movimiento, item, item_qt):
 		self.list_item.remove(item)
+		#self.list_item_qt.remove(item_qt)
 		if self.program.has_key(estado):
 			#print "transicion a borrar", self.program[estado][char_in]
 			#print "transiciones del estado antes", self.program[estado]
