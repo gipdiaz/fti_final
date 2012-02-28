@@ -193,7 +193,7 @@ class MaquinaTuring(Persistencia):
 	#----------------------------------------------------#
 
 	#str(item.text(0)) , str(item.text(1)) , str(item.text(2)), str(item.text(3)), str(item.text(4))
-	def borrarTransicion(self, estado, char_in, estado_destino, char_out, movimiento, item, item_qt):
+	def borrarTransicion(self, estado, char_in, estado_destino, char_out, movimiento, item):
 		self.list_item.remove(item)
 		#self.list_item_qt.remove(item_qt)
 		if self.program.has_key(estado):
